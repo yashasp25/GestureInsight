@@ -9,21 +9,20 @@ import base64
 app = Flask(__name__)
 
 # Load the trained model
-model = tf.keras.models.load_model('gesture_recognition_model.h5')
+model = tf.keras.models.load_model('gestures_recognition_model.h5')
 
 # Define the class labels
 class_labels = {
     0: "Hello",
-    1: "I Love You",
+    1: "Iloveyou",
     2: "No",
     3: "Yes"
 }
 
 # Preprocessing function
 def preprocess_image(image, target_size):
-    image = image.resize(target_size)
-    image = np.array(image)
-    image = image / 255.0  # Normalize
+    image = image.resize(target_size)  # Resize to target size
+    image = np.array(image) / 255.0  # Normalize the image
     image = np.expand_dims(image, axis=0)  # Add batch dimension
     return image
 
@@ -44,7 +43,7 @@ def predict():
     
     # Load and preprocess the image
     image = Image.open(io.BytesIO(file.read()))
-    processed_image = preprocess_image(image, target_size=(64, 64))
+    processed_image = preprocess_image(image, target_size=(64, 64))  # Resize to (64, 64)
     
     # Make prediction
     prediction = model.predict(processed_image)
@@ -67,7 +66,7 @@ def live_predict():
     image = Image.open(io.BytesIO(base64.b64decode(image_data)))
     
     # Preprocess and predict
-    processed_image = preprocess_image(image, target_size=(64, 64))
+    processed_image = preprocess_image(image, target_size=(64, 64))  # Resize to (64, 64)
     prediction = model.predict(processed_image)
     predicted_class = np.argmax(prediction, axis=-1)[0]
     

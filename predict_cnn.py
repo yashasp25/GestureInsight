@@ -4,7 +4,7 @@ import tensorflow as tf
 
 img_height, img_width = 64, 64
 
-model = tf.keras.models.load_model('gesture_recognition_model.h5')
+model = tf.keras.models.load_model('gestures_recognition_model.h5')
 
 class_names = ['Hello', 'Iloveyou', 'No', 'yes']
 
